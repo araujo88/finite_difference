@@ -12,7 +12,7 @@ Computes finite difference matrices for the first and second derivative up to si
 
 ## Examples
 
-### Exampĺe 1 - derivatives_example.py
+### Example 1 - derivatives_example.py
 
 This example is to demonstrate the perfomance of the different methods available. The function used in this example is given by:
 
@@ -22,7 +22,7 @@ which has the following derivatives:
 
 <img src="https://render.githubusercontent.com/render/math?math=f'(x) = 2 x \e^{x^2}">
 
-<img src="https://render.githubusercontent.com/render/math?math=f''(x) = 2 \e^{x^2} (2 x^2  +  1)">
+<img src="https://render.githubusercontent.com/render/math?math=f''(x) = 2 \e^{x^2} (1+ 2 x^2)">
 
 Relative error (in log scale) obtained for the first derivative:
 
