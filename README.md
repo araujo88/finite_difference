@@ -16,13 +16,13 @@ Computes finite difference matrices for the first and second derivative up to si
 
 This example is to demonstrate the perfomance of the different methods available. The function used in this example is given by:
 
-<img src="https://render.githubusercontent.com/render/math?math=f(x) = \e^{x^2}">
+$f(x) = e^{x^2}$
 
 which has the following derivatives:
 
-<img src="https://render.githubusercontent.com/render/math?math=f'(x) = 2 x \e^{x^2}">
+$f'(x) = 2 x e^{x^2}$
 
-<img src="https://render.githubusercontent.com/render/math?math=f''(x) = 2 \e^{x^2} (1 {+} 2 x^2)">
+$f''(x) = 2 e^{x^2} (1 + 2x^2)$
 
 Relative error (in log scale) obtained for the first derivative:
 
@@ -36,13 +36,13 @@ Relative error (in log scale) obtained for the second derivative:
 
 The function shown in the example files is given by:
 
-<img src="https://render.githubusercontent.com/render/math?math=f(x,y) = \sin x \ \sin y">
+$f(x,y) = \sin x \sin y$
 
 The partial derivatives are given by:
 
-<img src="https://render.githubusercontent.com/render/math?math=\frac{\partial f}{\partial x} = \cos x \ \sin y">
+$\frac{\partial f}{\partial x} = \cos x \sin y$
 
-<img src="https://render.githubusercontent.com/render/math?math=\frac{\partial f}{\partial y} = \sin x \ \cos y">
+$\frac{\partial f}{\partial y} = \sin x \cos y$
 
 The images below show the absolute error in log scale for both the partial derivatives in x and y direction.
 
