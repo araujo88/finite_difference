@@ -2,7 +2,37 @@
 
 Computes finite difference matrices for the first and second derivative up to sixth order, including compact finite-difference schemes such as the fourth-order Padé scheme and sixth-order Lele scheme (S. K. Lele. Compact finite difference schemes with spectral-like resolution. Journal of Computational Physics, 103(1):16–42, November 1992).
 
-## Example
+## Methods available
+
+ - 2nd order
+ - 4th order
+ - 6th order
+ - Padé (4th order compact scheme)
+ - Lele (6th order compact scheme)
+
+## Examples
+
+### Exampĺe 1 - derivatives_example.py
+
+This example is to demonstrate the perfomance of the different methods available. The function used in this example is given by:
+
+<img src="https://render.githubusercontent.com/render/math?math=f(x) = \e^{x^2}">
+
+which has the following derivatives:
+
+<img src="https://render.githubusercontent.com/render/math?math=f'(x) = 2 x \e^{x^2}">
+
+<img src="https://render.githubusercontent.com/render/math?math=f''(x) = 2 \e^{x^2} (2 x^2 + 1)">
+
+Relative error (in log scale) obtained for the first derivative:
+
+<img src="images/rel_error_1st_derivative.png"/>
+
+Relative error (in log scale) obtained for the first derivative:
+
+<img src="images/rel_error_2nd_derivative.png"/>
+
+### Example 2 - 2D_first_derivatives_example.py
 
 The function shown in the example files is given by:
 
