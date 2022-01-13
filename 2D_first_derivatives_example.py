@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy import sparse
-from finite_difference.finite_difference import Diff1, Diff2
+from finite_difference.finite_difference import Diff1, PadeD1_4, LeleD1_6, Diff2, PadeD2_4, LeleD2_6
 
 
 def contour(X, Y, Z):
@@ -63,6 +63,12 @@ DY6 = sparse.kron(I, d_y6)
 dzdy6 = DY6 @ np.reshape(Z, (nx*ny, 1))
 dzdy6 = np.reshape(dzdy6, (nx, ny))
 
+dzdx_pade = np.transpose(np.reshape(PadeD1_4(np.reshape(Z, (nx*ny, 1)), dx), (nx, ny)))
+dzdy_pade = np.transpose(np.reshape(PadeD1_4(np.reshape(Z, (nx*ny, 1)), dy), (nx, ny)))
+
+dzdx_lele = np.transpose(np.reshape(LeleD1_6(np.reshape(Z, (nx*ny, 1)), dx), (nx, ny)))
+dzdy_lele = np.transpose(np.reshape(LeleD1_6(np.reshape(Z, (nx*ny, 1)), dy), (nx, ny)))
+
 # Plots absolute error (x) - log scale
 plt.title('Absolute error (log scale) - x-derivative (2nd order)')
 contour(X, Y, np.log10(abs(dzdx2-dzdx)))
@@ -70,6 +76,10 @@ plt.title('Absolute error (log scale) - x-derivative (4th order)')
 contour(X, Y, np.log10(abs(dzdx4-dzdx)))
 plt.title('Absolute error (log scale) - x-derivative (6th order)')
 contour(X, Y, np.log10(abs(dzdx6-dzdx)))
+plt.title('Absolute error (log scale) - x-derivative (Padé 4th order)')
+contour(X, Y, np.log10(abs(dzdx_pade-dzdx)))
+plt.title('Absolute error (log scale) - x-derivative (Lele 6th order)')
+contour(X, Y, np.log10(abs(dzdx_lele-dzdx)))
 
 # Plots absolute error (y) - log scale
 plt.title('Absolute error (log scale) - y-derivative (2nd order)')
@@ -78,3 +88,7 @@ plt.title('Absolute error (log scale) - y-derivative (4th order)')
 contour(X, Y, np.log10(abs(dzdy4-dzdy)))
 plt.title('Absolute error (log scale) - y-derivative (6th order)')
 contour(X, Y, np.log10(abs(dzdy6-dzdy)))
+plt.title('Absolute error (log scale) - y-derivative (Padé 4th order)')
+contour(X, Y, np.log10(abs(dzdy_pade-dzdx)))
+plt.title('Absolute error (log scale) - y-derivative (Lele 6th order)')
+contour(X, Y, np.log10(abs(dzdy_lele-dzdx)))

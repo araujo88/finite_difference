@@ -1,6 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from finite_difference.finite_difference import Diff1, Diff2
+from finite_difference.finite_difference import Diff1, Diff2, PadeD1_4, PadeD2_4, LeleD1_6, LeleD2_6
 
 
 N = 50  # Number of points
@@ -20,15 +20,18 @@ d6 = Diff1(N, 6)/dx  # sixth-order diff matrix
 dydx_2 = d2 @ y  # second-order 1st. derivative approx.
 dydx_4 = d4 @ y  # fourth-order 1st. derivative approx.
 dydx_6 = d6 @ y  # sixth-order 1st. derivative approx.
+dydx_pade = PadeD1_4(y, dx)  # fourth-order Padé 2nd. derivative approx.
+dydx_lele = LeleD1_6(y, dx)  # sixth-order Lele 2nd. derivative approx.
 
 # Computes relative error for first-derivatives
 plt.semilogy(x, abs(dydx_2-dydx)/dydx, '-rs', label='Second order')
 plt.semilogy(x, abs(dydx_4-dydx)/dydx, '--bo', label='Fourth order')
 plt.semilogy(x, abs(dydx_6-dydx)/dydx, 'g*-', label='Sixth order')
+plt.semilogy(x, abs(dydx_pade-dydx)/dydx, 'm--', label='Padé (4th order)')
+plt.semilogy(x, abs(dydx_lele-dydx)/dydx, 'y', label='Lele (6th order)')
 plt.xlabel('x')
 plt.ylabel('Relative Error')
 plt.title('Relative error for the first derivative')
-plt.aspect = 'equal'
 plt.legend()
 plt.grid()
 plt.show()
@@ -42,15 +45,18 @@ dd2_6 = Diff2(N, 6)/(dx**2)  # sixth-order diff matrix
 d2ydx2_2 = dd2_2 @ y  # second-order 2nd. derivative approx.
 d2ydx2_4 = dd2_4 @ y  # fourth-order 2nd. derivative approx.
 d2ydx2_6 = dd2_6 @ y  # sixth-order 2nd. derivative approx.
+d2ydx2_pade = PadeD2_4(y, dx)  # fourth-order Padé 2nd. derivative approx.
+d2ydx2_lele = LeleD2_6(y, dx)  # sixth-order Lele 2nd. derivative approx.
 
 # Computes relative error for second-derivatives
 plt.semilogy(x, abs(d2ydx2_2-d2ydx2)/d2ydx2, '-rs', label='Second order')
 plt.semilogy(x, abs(d2ydx2_4-d2ydx2)/d2ydx2, '--bo', label='Fourth order')
 plt.semilogy(x, abs(d2ydx2_6-d2ydx2)/d2ydx2, 'g*-', label='Sixth order')
+plt.semilogy(x, abs(d2ydx2_pade-d2ydx2)/d2ydx2, 'm--', label='Padé (4th order)')
+plt.semilogy(x, abs(d2ydx2_lele-d2ydx2)/d2ydx2, 'y', label='Lele (6th order)')
 plt.xlabel('x')
 plt.ylabel('Relative Error')
 plt.title('Relative error for the second derivative')
-plt.aspect = 'equal'
 plt.legend()
 plt.grid()
 plt.show()

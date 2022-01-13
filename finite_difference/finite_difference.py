@@ -174,8 +174,52 @@ def PadeD1_4(f, h=1):
 
     # Interior points:
 
-    for i in range(1, N-2):
-        b[i] = 3*(f[i+1]-f[i-1])/h
+    for i in range(1, N-1):
+        b[i] = 3*(f[i+1]-f[i-1])
+
+    b = b/h
+
+    # Compute the derivative:
+
+    df = np.linalg.solve(A, b)
+
+    return df
+
+
+def PadeD2_4(f, h=1):
+
+    N = int((np.size(f)))
+
+    A = np.zeros((N, N))
+    b = np.zeros(N)
+
+    # Generate A matrix (f_i')
+
+    # Boundary and adjacent points:
+    A[0, 0] = 1
+
+    A[N-1, N - 1] = A[0, 0]
+
+    # Interior points:
+
+    for i in range(1, N-1):
+        A[i, i-1] = 1/10
+        A[i, i] = 1
+        A[i, i+1] = 1/10
+
+    # Generate b vector (f_i)
+
+    # Boundary and adjacent points:
+
+    b[0] = (2)*f[0]+(-5)*f[1]+(4)*f[2]-f[3]
+    b[N-1] = (2)*f[-1]+(-5)*f[-2]+(4)*f[-3]-f[-4]
+
+    # Interior points:
+
+    for i in range(1, N-1):
+        b[i] = (6/5)*(f[i+1]-2*f[i]+f[i-1])
+
+    b = b/(h**2)
 
     # Compute the derivative:
 
@@ -185,59 +229,102 @@ def PadeD1_4(f, h=1):
 
 
 def LeleD1_6(f, h=1):
-    # This is an implementation of a 6th order non-dissipative compact difference as shown in:
-    # S. K. Lele. Compact finite difference schemes with spectral-like resolution.
-    # Journal of Computational Physics, 103(1):16–42, November 1992.
-    # While functional, this implementation is designed for demonstration
-    # and so clarity was pursued at the expense of a more efficient implementation
-    # Using a tridiagonal solver should allow for a much more efficient solution to the problem.
-    # What we have is a system of the form Ax'=Bx=b
-    N = int(np.sqrt(np.size(f)))
-    # Initialize variable
+
+    N = int((np.size(f)))
+
     A = np.zeros((N, N))
-    B = np.zeros((N, N))
-    # Populate the A-matrix left boundary
+    b = np.zeros(N)
+
+    # Generate A matrix (f_i')
+
+    # Boundary and adjacent points:
+
     A[0, 0] = 1
     A[0, 1] = 2
-    # 2nd point from left
     A[1, 0] = 1/4
     A[1, 1] = 1
     A[1, 2] = 1/4
-    # All interior points
-    for kk in range(2, N-2):
-        A[kk, kk-1] = 1/3
-        A[kk, kk] = 1
-        A[kk, kk+1] = 1/3
-    # 2nd point from right
-    A[N-2, N-3] = 1/4
-    A[N-2, N-2] = 1
-    A[N-2, N-1] = 1/4
-    # right boundary
-    A[N-1, N-2] = 2
-    A[N-1, N-1] = 1
-    # Populate the B-matrix
-    alf = 7/9/h
-    bet = 1/36/h
-    # left boundary
-    B[0, 0] = -5/2/h
-    B[0, 1] = 2/h
-    B[0, 2] = 1/2/h
-    # 2nd point from left
-    B[1, 0] = -3/4/h
-    B[1, 2] = 3/4/h
-    # interior points
-    for kk in range(2, N-2):
-        B[kk, kk-2] = -bet
-        B[kk, kk-1] = -alf
-        B[kk, kk+1] = alf
-        B[kk, kk+2] = bet
-    # 2nd point from right
-    B[N-2, N-3] = -3/4/h
-    B[N-2, N-1] = 3/4/h
-    # right boundary
-    B[N-1, N-1] = 5/2/h
-    B[N-1, N-2] = -2/h
-    B[N-1, N-3] = -1/2/h
-    b = np.matmul(B, f)
-    outarray = np.linalg.solve(A, b)
-    return outarray
+
+    A[N-1, N-1] = A[0, 0]
+    A[N-1, N-2] = A[0, 1]
+    A[N-2, N-1] = A[1, 0]
+    A[N-2, N-2] = A[1, 1]
+    A[N-2, N-3] = A[1, 2]
+
+    # Interior points:
+
+    for i in range(2, N-2):
+        A[i, i-1] = 1/3
+        A[i, i] = 1
+        A[i, i+1] = 1/3
+
+    # Generate b vector (f_i)
+
+    # Boundary and adjacent points:
+
+    b[0] = (-5*f[0]+4*f[1]+f[2])/(2*h)
+    b[1] = (3/2)*(f[2]-f[0])/(2*h)
+    
+    b[N-1] = -(-5*f[N-1]+4*f[N-2]+f[N-3])/(2*h)
+    b[N-2] = -(3/2)*(f[-3]-f[-1])/(2*h)
+
+    # Interior points:
+
+    for i in range(2, N-2):
+        b[i] = (14/9)*(f[i+1]-f[i-1])/(2*h) + (1/9)*(f[i+2]-f[i-2])/(4*h)
+
+    # Compute the derivative:
+
+    df = np.linalg.solve(A, b)
+
+    return df
+
+
+def LeleD2_6(f, h=1):
+
+    N = int((np.size(f)))
+
+    A = np.zeros((N, N))
+    b = np.zeros(N)
+
+    # Generate A matrix (f_i')
+
+    # Boundary and adjacent points:
+    A[0, 0] = 1
+    A[0, 1] = 11
+    A[1, 0] = 1/10
+    A[1, 1] = 1
+    A[1, 2] = 1/10
+    A[-1, -1] = A[0, 0]
+    A[-1, -2] = A[0, 1]
+    A[-2, -1] = A[1, 0]
+    A[-2, -2] = A[1, 1]
+    A[-2, -3] = A[1, 2]
+
+    # Interior points:
+
+    for i in range(2, N-2):
+        A[i, i-1] = 2/11
+        A[i, i] = 1
+        A[i, i+1] = 2/11
+
+    # Generate b vector (f_i)
+
+    # Boundary and adjacent points:
+
+    b[0] = (13*f[0]-27*f[1]+15*f[2]-f[3])/(h**2)
+    b[1] = (6/5)*(f[0]-2*f[1]+f[2])/(h**2)
+    b[-1] = (13*f[-1]-27*f[-2]+15*f[-3]-f[-4])/(h**2)
+    b[-2] = (6/5)*(f[-1]-2*f[-2]+f[-3])/(h**2)
+
+    # Interior points:
+
+    for i in range(2, N-2):
+        b[i] = (3/11)*(f[i+2]-2*f[i]+f[i-2])/(4*h**2) + \
+            (12/11)*(f[i+1]-2*f[i]+f[i-1])/(h**2)
+
+    # Compute the derivative:
+
+    df = np.linalg.solve(A, b)
+
+    return df
