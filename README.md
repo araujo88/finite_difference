@@ -22,13 +22,13 @@ which has the following derivatives:
 
 <img src="https://render.githubusercontent.com/render/math?math=f'(x) = 2 x \e^{x^2}">
 
-<img src="https://render.githubusercontent.com/render/math?math=f''(x) = 2 \e^{x^2} (2 x^2 + 1)">
+<img src="https://render.githubusercontent.com/render/math?math=f''(x) = 2 \e^{x^2} (2 x^2  +  1)">
 
 Relative error (in log scale) obtained for the first derivative:
 
 <img src="images/rel_error_1st_derivative.png"/>
 
-Relative error (in log scale) obtained for the first derivative:
+Relative error (in log scale) obtained for the second derivative:
 
 <img src="images/rel_error_2nd_derivative.png"/>
 
